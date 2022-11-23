@@ -69,30 +69,17 @@ public class BoardController {
 
         Page<Board> list = null;
 
-        System.out.println("searchKeyword : " + searchKeyword);
-        System.out.println("searchCondition : " + searchCondition);
-
         if(searchKeyword == null){
             list = boardService.boardList(pageable);
-            System.out.println("여기는 가겠지");
-        } else {
-            System.out.println("여기 가냐?");
-            if (searchCondition == "title") {
-                System.out.println("여기 가냐? title");
-                list = boardService.boardSearchListByTitle(searchKeyword, pageable);
-            } else if (searchCondition == "writer") {
-                System.out.println("여기 가냐? writer");
-                list = boardService.boardSearchListByWriter(searchKeyword, pageable);
-            } else if (searchCondition == "contents") {
-                System.out.println("여기 가냐? contents");
-                list = boardService.boardSearchListByContents(searchKeyword, pageable);
-            } else if (searchCondition == "all") {
-                System.out.println("여기 가냐? all");
-                list = boardService.boardSearchListByAll(searchKeyword, pageable);
-            }
+        } else if(searchCondition.equals("title")){
+            list = boardService.boardSearchListByTitle(searchKeyword ,pageable);
+        } else if(searchCondition.equals("writer")){
+            list = boardService.boardSearchListByWriter(searchKeyword ,pageable);
+        } else if(searchCondition.equals("contents")){
+            list = boardService.boardSearchListByContents(searchKeyword ,pageable);
+        } else if(searchCondition.equals("all")){
+            list = boardService.boardSearchListByAll(searchKeyword ,pageable);
         }
-
-        System.out.println("last controller list : " + list);
 
         int nowPage = list.getPageable().getPageNumber() + 1; //pageable.getPageNumber(); 도 가능 0에서 시작하기때문에 1 더해줌
         int startPage = Math.max(nowPage - 4, 1);       // 둘중에 큰값 반환
@@ -104,38 +91,6 @@ public class BoardController {
         model.addAttribute("endPage" , endPage);
         return "boardlist";
     }
-
-//    @GetMapping("/search")
-//    public String boardSearch(Model model, String searchKeyword, String searchCondition,
-//                              @PageableDefault(page=0, size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
-//
-//        Page<Board> list = null;
-//
-//        System.out.println("searchKeyword : " + searchKeyword);
-//        System.out.println("searchCondition : " + searchCondition);
-//
-//        if(searchCondition == "title"){
-//            list = boardService.boardSearchListByTitle(searchKeyword ,pageable);
-//        } else if(searchCondition == "writer"){
-//            list = boardService.boardSearchListByWriter(searchKeyword ,pageable);
-//        } else if(searchCondition == "contents"){
-//            list = boardService.boardSearchListByContents(searchKeyword ,pageable);
-//        } else if(searchCondition == "all"){
-//            list = boardService.boardSearchListByAll(searchKeyword ,pageable);
-//        }
-//        System.out.println("controller searchlist : " + list);
-//
-//        int nowPage = list.getPageable().getPageNumber() + 1; //pageable.getPageNumber(); 도 가능 0에서 시작하기때문에 1 더해줌
-//        int startPage = Math.max(nowPage - 4, 1);       // 둘중에 큰값 반환
-//        int endPage = Math.min(nowPage + 5, list.getTotalPages());
-//
-//        model.addAttribute("list", list);
-//        model.addAttribute("nowPage" , nowPage);
-//        model.addAttribute("startPage" , startPage);
-//        model.addAttribute("endPage" , endPage);
-//
-//        return "boardlist";
-//    }
 
     // 특정 게시글 처리
     @GetMapping("/detail")
