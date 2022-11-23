@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세보기</title>
+</head>
+<body>
+<h1 align="center">게시글 상세 페이지</h1>
+<br><br>
+  <table align="center" border="1" width="500px" height="500px">
+    <tr height="10%">
+      <td width="15%">제목</td>
+      <td th:text="${board.title}"></td>
+    </tr>
+    <tr height="10%">
+      <td width="15%">작성자</td>
+      <td th:text="${board.writer}"></td>
+    </tr>
+    <tr>
+      <td width="15%">내용</td>
+      <td th:text="${board.contents}"></td>
+    </tr>
+    <tr>
+      <td width="15%">첨부파일</td>
+      <td><img th:src="${board.filepath}" th:if="${board.filepath != null}" alt="첨부이미지" width="300px" height="300px"></td>
+    </tr>
+    <tr height="10%">
+      <td colspan="2" align="center">
+        <button th:onclick="|location.href='@{/board/delete(id=${board.id})}'|">삭제하기</button>
+        <button th:onclick="|location.href='@{/board/modify/{id}(id=${board.id})}'|">수정하기</button>
+        <button onclick="location.href='/board/list'">목록으로</button>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

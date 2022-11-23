@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>자유게시판</title>
+</head>
+<body>
+<h1 align="center">게시글 목록</h1>
+<br><br>
+<div>
+ <table align="center" border="1">
+  <tr>
+    <th>글번호</th>
+    <th>제목</th>
+    <th>작성자</th>
+  </tr>
+      <tr th:each="board : ${list}">
+        <td th:text="${board.id}"></td>
+        <td>
+          <a th:text="${board.title}" th:href="@{/board/detail(id=${board.id})}"></a>
+        </td>
+        <td th:text="${board.writer}"></td>
+      </tr>
+  <tr>
+    <td colspan="4" align="center">
+      <form action="/board/list" method="get">
+        <select name="searchCondition">
+          <option value="all">all</option>
+          <option value="writer">writer</option>
+          <option value="title">title</option>
+          <option value="contents">contents</option>
+        </select>
+        <input type="text" name="searchKeyword" value="">
+        <input type="submit" value="검색">
+      </form>
+    </td>
+    <td>
+      <button onclick="location.href='/board/writeFrom';">글쓰기</button>
+    </td>
+  </tr>
+ </table>
+  <div style="text-align: center">
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+      <a th:if = "${page != nowPage}" th:href="@{/board/list(page = ${page - 1})}" th:text="${page}"></a>
+      <strong th:if = "${page == nowPage}" th:text="${page}" style="color: black"></strong>
+    </th:block>
+  </div>
+</div>
+</body>
+</html>
